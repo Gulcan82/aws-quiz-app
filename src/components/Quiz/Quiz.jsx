@@ -221,6 +221,11 @@ function Quiz() {
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
+  const extractDomain = (info) => {
+    const match = info.match(/Domain:(\d+)/);
+    return match ? match[1] : "";
+  };
+
   return (
     <div className="quiz-container">
       <div className="left-panel">
@@ -229,13 +234,15 @@ function Quiz() {
         <p>Slogan: Teamarbeit, Harmonie und gegenseitiger Respekt.</p>
       </div>
       <div className="main-content">
-        <div className="header-buttons">
-          <button className="restart-button" onClick={handleRestart}>Neustart</button>
-          {!timerActive && <button onClick={startTimer} className="start-timer-button">Timer Starten</button>}
-          <button className="logout-button" onClick={handleLogout}>Ausloggen</button>
-        </div>
-        <div className="timer">
-          {formatTime(timeLeft)}
+        <div className="header-section">
+          <div className="header-buttons">
+            <button className="restart-button" onClick={handleRestart}>Neustart</button>
+            {!timerActive && <button onClick={startTimer} className="start-timer-button">Timer Starten</button>}
+            <button className="logout-button" onClick={handleLogout}>Ausloggen</button>
+          </div>
+          <div className="timer">
+            {formatTime(timeLeft)}
+          </div>
         </div>
         <div className="quiz-content">
           <p className="question-number">Frage {currentQuestion + 1} von {totalQuestions}</p>
@@ -285,6 +292,7 @@ function Quiz() {
 
           {showAnswer && (
             <div className="full-answer">
+              <p className="domain-text">Domain: {extractDomain(question.info)}</p> {/* Afiseaza domain-ul */}
               <p className="correct-answer">{correctInfo[currentQuestion]}</p>
               <p className="wrong-answer">{question.wrongInfo.option1}</p>
               <p className="wrong-answer">{question.wrongInfo.option2}</p>
